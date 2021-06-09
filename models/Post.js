@@ -21,13 +21,21 @@ class Post extends Model {
             sequelize.literal('(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)'),
             'vote_count'
           ]
+<<<<<<< HEAD
         ], 
+=======
+        ],
+>>>>>>> develop
         include: [
           {
             model: models.Comment,
             attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
             include: {
+<<<<<<< HEAD
               model: models.User, 
+=======
+              model: models.User,
+>>>>>>> develop
               attributes: ['username']
             }
           }
