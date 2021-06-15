@@ -5,6 +5,7 @@ const { Post, User, Comment, Vote } = require('../models');
 
 // get all posts for homepage
 router.get('/', (req, res) => {
+  console.log('================');
   Post.findAll({
     attributes: [
       'id',
@@ -42,14 +43,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/login', (req, res) => {
-    if (req.session.loggedIn) {
-    res.redirect('/');
-    return;
-  }
-  res.render('login');
-});
-
+// get a single post
 router.get('/post/:id', (req, res) => {
 Post.findOne({
     where: {
@@ -82,7 +76,6 @@ Post.findOne({
         res.status(404).json({ message: 'No post found with this id' });
         return;
       }
-
       // serialize the data
       const post = dbPostData.get({ plain: true });
 
@@ -96,6 +89,14 @@ Post.findOne({
       console.log(err);
       res.status(500).json(err);
     });
+});
+
+router.get('/login', (req, res) => {
+    if (req.session.loggedIn) {
+    res.redirect('/');
+    return;
+  }
+  res.render('login');
 });
 
 module.exports = router;

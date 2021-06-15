@@ -7,7 +7,8 @@ router.get('/', (req, res) => {
   console.log('======================');
   Post.findAll({
     order: [['created_at', 'DESC']],
-    attributes: ['id', 
+    attributes: [
+    'id', 
     'post_url', 
     'title', 
     'created_at', 
@@ -42,7 +43,8 @@ router.get('/:id', (req, res) => {
     where: {
       id: req.params.id
     },
-    attributes: ['id', 
+    attributes: [
+    'id', 
     'post_url', 
     'title', 
     'created_at', 
@@ -79,7 +81,8 @@ router.get('/:id', (req, res) => {
 // Create a post 
 router.post('/', (req, res) => {
   // expects {title: 'Taskmaster goes public!', post_url: 'https://taskmaster.com/press', user_id: 1}
-  Post.create({
+  if(req.session) {
+    Post.create({
     title: req.body.title,
     post_url: req.body.post_url,
     user_id: req.session.user_id
@@ -89,6 +92,7 @@ router.post('/', (req, res) => {
       console.log(err);
       res.status(500).json(err);
     });
+  }
 });
 
 // PUT /api/posts/upvote
@@ -132,6 +136,7 @@ router.put('/:id', (req, res) => {
 
 // delete a post 
 router.delete('/:id', (req, res) => {
+  console.log('id', req.params.id);
   Post.destroy({
     where: {
       id: req.params.id
